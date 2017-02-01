@@ -116,14 +116,14 @@ public class Employee {
     }
     
     
-    private String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
     // setter methods give the developer the power to control what data is
     // allowed through validation.
     
-    void setFirstName(String firstName) {
+   public void setFirstName(String firstName) {
         if(firstName == null || firstName.isEmpty()) {
             // error message
             return;
@@ -135,7 +135,7 @@ public class Employee {
         return lastName;
     }
 
-    void setLastName(String lastName) {
+    public void setLastName(String lastName) {
         if(lastName == null || lastName.isEmpty()) {
             // error message
             return;
@@ -147,14 +147,18 @@ public class Employee {
         return ssn;
     }
 
-    void setSsn(String ssn) {
+   public void setSsn(String ssn) {
+       if(ssn == null || ssn.length() < 9 || ssn.length() > 9) {
+            System.out.println("Sorry you must provide a proper SSN");
+                    return;
+        }
         this.ssn = ssn;
     }
     private String getCubeId() {
         return cubeId;
     }
 
-    private void setCubeId(String cubeId) {
+    public void setCubeId(String cubeId) {
         if(cubeId == null || cubeId.isEmpty()) {
             // error message
             return;
