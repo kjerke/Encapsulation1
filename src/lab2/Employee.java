@@ -23,135 +23,187 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String ssn;
+    private String cubeId;
+    private Date orientationDate;
     private boolean metWithHr;
     private boolean metDeptStaff;
     private boolean reviewedDeptPolicies;
     private boolean movedIn;
-    private String cubeId;
-    private Date orientationDate;
+    private Date currentDate;   
 
-    public Employee(String firstName, String lastName, String ssn) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.ssn = ssn;
+    public Employee() {
+        currentDate = new Date();
     }
 
-    // Assume this must be performed first, and assume that an employee
-    // would only do this once, upon being hired.
-    public void meetWithHrForBenefitAndSalryInfo() {
+    public void completeEmployeeTraining(String cubeId){
+        meetWithHrForBenefitsAndSalryInfo();
+        meetDepartmentStaff();
+        reviewDeptPolicies();
+        moveIntoCubicle(cubeId);
+        
+    }
+    
+    private String getFormattedDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        return sdf.format(currentDate);
+    }
+    
+    public void doTraining(String cubeId) {
+        meetWithHrForBenefitsAndSalryInfo();
+        meetDepartmentStaff();
+        reviewDeptPolicies();
+        moveIntoCubicle(cubeId);
+    
+    System.out.println("Completed Training on: " + getFormattedDate());
+    }   
+    public void meetWithHrForBenefitsAndSalryInfo() {
         metWithHr = true;
-        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-        String fmtDate = sdf.format(orientationDate);        
-        System.out.println(firstName + " " + lastName + " met with Hr on "
-            + fmtDate);
+        System.out.println("Met with HR on: " + getFormattedDate());
     }
 
     // Assume this must be performed first, and assume that an employee
     // would only do this once, upon being hired.:
     public void meetDepartmentStaff() {
-        metDeptStaff = true;
-        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-        String fmtDate = sdf.format(orientationDate);        
-        System.out.println(firstName + " " + lastName + " met with Dept. Staff on "
-            + fmtDate);
+       if(metWithHr) {
+            metDeptStaff = true;
+            
+            // gives method too many jobs 
+            System.out.println("Met with Department Staff on: " + getFormattedDate());
+        } else {
+            System.out.println("Sorry, you cannot meet with "
+                    + "department staff until you have met with HR.");
+        }
     }
 
     // Assume this must be performed third. And assume that because department
     // policies may change that this method may need to be called 
     // independently from other classes.
     public void reviewDeptPolicies() {
-        reviewedDeptPolicies = true;
-        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-        String fmtDate = sdf.format(orientationDate);        
-        System.out.println(firstName + " " + lastName + " reviewed Dept policies on "
-            + fmtDate);
+        if(metWithHr && metDeptStaff) {
+            reviewedDeptPolicies = true;
+            
+            System.out.println("Reviewed Department Policies on: " + getFormattedDate());
+        } else {
+            System.out.println("Sorry, you cannot review "
+                    + " department policies until you have first met with HR "
+                    + "and then with department staff.");
+        }
     }
 
     // Assume this must be performed 4th. And assume that because employees
     // sometimes change office locations that this method may need to be called 
     // independently from other classes.
     public void moveIntoCubicle(String cubeId) {
-        this.cubeId = cubeId;
-        this.movedIn = true;
-        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-        String fmtDate = sdf.format(orientationDate);        
-        System.out.println(firstName + " " + lastName + " moved into cubicle "
-                + cubeId + " on " + fmtDate);
+        if(metWithHr && metDeptStaff && reviewedDeptPolicies) {
+            this.cubeId = cubeId;
+            this.movedIn = true;
+            
+           System.out.println("Moved into cubical on: " + getFormattedDate());
+        } else {
+            System.out.println("Sorry, you cannot move in to a "
+                    + "cubicle until you have first met with HR "
+                    + "and then with department staff, and then reviewed"
+                    + "department policies.");
+        }
     }
-
-    public String getFirstName() {
+    
+    public String getStatus() {
+        if(metWithHr && metDeptStaff && reviewedDeptPolicies && movedIn) {
+            return "Training is complete";
+        } else {
+            return getFormattedDate() + ": Training in progress...";
+        }
+    }
+    
+    
+    private String getFirstName() {
         return firstName;
     }
 
     // setter methods give the developer the power to control what data is
     // allowed through validation.
     
-    public void setFirstName(String firstName) {
+    void setFirstName(String firstName) {
+        if(firstName == null || firstName.isEmpty()) {
+            // error message
+            return;
+        } 
        this.firstName = firstName;
     }
 
-    public String getLastName() {
+    private String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    void setLastName(String lastName) {
+        if(lastName == null || lastName.isEmpty()) {
+            // error message
+            return;
+        }
        this.lastName = lastName;
     }
 
-    public String getSsn() {
+    private String getSsn() {
         return ssn;
     }
 
-    public void setSsn(String ssn) {
+    void setSsn(String ssn) {
         this.ssn = ssn;
     }
+    private String getCubeId() {
+        return cubeId;
+    }
 
-    public boolean isMetWithHr() {
+    private void setCubeId(String cubeId) {
+        if(cubeId == null || cubeId.isEmpty()) {
+            // error message
+            return;
+        }
+        this.cubeId = cubeId;
+    }
+
+    private Date getOrientationDate() {
+        return orientationDate;
+    }
+
+    private void setOrientationDate(Date orientationDate) {
+        this.orientationDate = orientationDate;
+    }
+
+    
+    private boolean isMetWithHr() {
         return metWithHr;
     }
 
     // boolean parameters need no validation
-    public void setMetWithHr(boolean metWithHr) {
+    private void setMetWithHr(boolean metWithHr) {
         this.metWithHr = metWithHr;
     }
 
-    public boolean isMetDeptStaff() {
+    private boolean isMetDeptStaff() {
         return metDeptStaff;
     }
 
-    public void setMetDeptStaff(boolean metDeptStaff) {
+    private void setMetDeptStaff(boolean metDeptStaff) {
         this.metDeptStaff = metDeptStaff;
     }
 
-    public boolean isReviewedDeptPolicies() {
+    private boolean isReviewedDeptPolicies() {
         return reviewedDeptPolicies;
     }
 
-    public void setReviewedDeptPolicies(boolean reviewedDeptPolicies) {
+    private void setReviewedDeptPolicies(boolean reviewedDeptPolicies) {
         this.reviewedDeptPolicies = reviewedDeptPolicies;
     }
 
-    public boolean isMovedIn() {
+    private boolean isMovedIn() {
         return movedIn;
     }
 
-    public void setMovedIn(boolean movedIn) {
+    private void setMovedIn(boolean movedIn) {
         this.movedIn = movedIn;
     }
 
-    public String getCubeId() {
-        return cubeId;
-    }
 
-    
-    public void setCubeId(String cubeId) {
-        this.cubeId = cubeId;
-    }
+}
 
-    public Date getOrientationDate() {
-        return orientationDate;
-    }
-
-    public void setOrientationDate(Date orientationDate) {
-        this.orientationDate = orientationDate;
-    }}

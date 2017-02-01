@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * 
  * @author jlombardo
  */
-public class Cake {
+public class makeCake {
     // Good encapsulation: private scope
     // property can only be referenced inside this class.
     private int quantity;

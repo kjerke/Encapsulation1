@@ -16,7 +16,7 @@ public class MethodEncapsulationDemo1 {
      */
     public static void main(String[] args) {
         
-        Cake cake = new Cake();
+        makeCake cake = new makeCake();
 
         // Simple now -- only one method to understand. Other methods are
         // hidden away (encapsulated) by this method.
