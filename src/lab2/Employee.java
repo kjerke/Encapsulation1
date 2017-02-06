@@ -44,7 +44,7 @@ public class Employee {
     }
     
     private String getFormattedDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy");
         return sdf.format(currentDate);
     }
     
@@ -56,14 +56,14 @@ public class Employee {
     
     System.out.println("Completed Training on: " + getFormattedDate());
     }   
-    public void meetWithHrForBenefitsAndSalryInfo() {
+    private void meetWithHrForBenefitsAndSalryInfo() {
         metWithHr = true;
         System.out.println("Met with HR on: " + getFormattedDate());
     }
 
-    // Assume this must be performed first, and assume that an employee
+    // Assume this must be performed second, and assume that an employee
     // would only do this once, upon being hired.:
-    public void meetDepartmentStaff() {
+    private void meetDepartmentStaff() {
        if(metWithHr) {
             metDeptStaff = true;
             
@@ -131,7 +131,7 @@ public class Employee {
        this.firstName = firstName;
     }
 
-    private String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
@@ -154,33 +154,33 @@ public class Employee {
         }
         this.ssn = ssn;
     }
-    private String getCubeId() {
+    public String getCubeId() {
         return cubeId;
     }
 
     public void setCubeId(String cubeId) {
         if(cubeId == null || cubeId.isEmpty()) {
-            // error message
+            System.out.println("Please Enter a cubeId");
             return;
         }
         this.cubeId = cubeId;
     }
 
-    private Date getOrientationDate() {
+    public Date getOrientationDate() {
         return orientationDate;
     }
 
-    private void setOrientationDate(Date orientationDate) {
+    public void setOrientationDate(Date orientationDate) {
         this.orientationDate = orientationDate;
     }
 
     
-    private boolean isMetWithHr() {
+    public boolean isMetWithHr() {
         return metWithHr;
     }
 
     // boolean parameters need no validation
-    private void setMetWithHr(boolean metWithHr) {
+    public void setMetWithHr(boolean metWithHr) {
         this.metWithHr = metWithHr;
     }
 

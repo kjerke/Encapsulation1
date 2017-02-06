@@ -46,13 +46,15 @@ public class Employee {
     private boolean movedIn;
     private String cubeId;
     private Date orientationDate;
-
+    private EmployeeReportService reportService;
+    private final String REQUIRED_MSG = " Is Required";
     public Employee(String firstName, String lastName, String ssn) {
         // Using setter method guarantees validation will be performed
         // Ignore the warning messages for now. Will be explained later
         setFirstName(firstName);
         setLastName(lastName);
         setSsn(ssn);
+        reportService = new EmployeeReportService();
     }
     
     /* 
@@ -89,7 +91,7 @@ public class Employee {
     // and should only be called as part of the larger task of:
     private void meetWithHrForBenefitAndSalryInfo() {
         metWithHr = true;
-        System.out.println(firstName + " " + lastName + " met with Hr on "
+        reportService.addData(firstName + " " + lastName + " met with Hr on "
             + getFormattedDate());
     }
 
@@ -100,7 +102,7 @@ public class Employee {
     // doFirtTimeOrientation()
     private void meetDepartmentStaff() {
         metDeptStaff = true;
-        System.out.println(firstName + " " + lastName + " met with Dept. Staff on "
+        reportService.addData(firstName + " " + lastName + " met with Dept. Staff on "
             + getFormattedDate());
     }
 
@@ -109,7 +111,7 @@ public class Employee {
     // independently from other classes.
     public void reviewDeptPolicies() {
         reviewedDeptPolicies = true;
-        System.out.println(firstName + " " + lastName + " reviewed Dept policies on "
+        reportService.addData(firstName + " " + lastName + " reviewed Dept policies on "
             + getFormattedDate());
     }
 
@@ -119,7 +121,7 @@ public class Employee {
     public void moveIntoCubicle(String cubeId) {
         this.cubeId = cubeId;
         this.movedIn = true;
-        System.out.println(firstName + " " + lastName + " moved into cubicle "
+        reportService.addData(firstName + " " + lastName + " moved into cubicle "
                 + cubeId + " on " + getFormattedDate());
     }
 
@@ -133,7 +135,7 @@ public class Employee {
     // to display an error message -- not the job of this class!
     public void setFirstName(String firstName) {
         if(firstName == null || firstName.isEmpty()) {
-            throw new IllegalArgumentException("first name is required");
+            throw new IllegalArgumentException("first name" + REQUIRED_MSG);
         }
         this.firstName = firstName;
     }
@@ -144,7 +146,7 @@ public class Employee {
 
     public void setLastName(String lastName) {
         if(lastName == null || lastName.isEmpty()) {
-            System.out.println("last name is required");
+            System.out.println("last name " + REQUIRED_MSG);
         }
         this.lastName = lastName;
     }
@@ -155,8 +157,7 @@ public class Employee {
 
     public void setSsn(String ssn) {
         if(ssn == null || ssn.length() < 9 || ssn.length() > 11) {
-            System.out.println("ssn is required and must be "
-                    + "between 9 and 11 characters (if hyphens are used)");
+            System.out.println("ssn" + REQUIRED_MSG  + " and must be between 9 and 11 characters (if hyphens are used)");
         }
         this.ssn = ssn;
     }
@@ -201,7 +202,7 @@ public class Employee {
     
     public void setCubeId(String cubeId) {
         if(cubeId == null || cubeId.isEmpty()) {
-            System.out.println("cube id is required");
+            System.out.println("cube id" + REQUIRED_MSG);
         }
         this.cubeId = cubeId;
     }
@@ -212,8 +213,20 @@ public class Employee {
 
     public void setOrientationDate(Date orientationDate) {
         if(orientationDate == null) {
-            System.out.println("orientationDate is required");
+            System.out.println("orientationDate " + REQUIRED_MSG);
         }
         this.orientationDate = orientationDate;
+    }
+    
+    public EmployeeReportService getReportService() {
+        return reportService;
+    }
+    
+    public void setReportService(EmployeeReportService reportService) {
+        this.reportService = reportService;
+    }
+
+    private void reportService(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
